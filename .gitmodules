@@ -1,0 +1,3 @@
+[submodule ".github/tools/GitAntivirus"]
+	path = .github/tools/GitAntivirus
+	url = https://github.com/SolanaRemix/GitAntivirus
