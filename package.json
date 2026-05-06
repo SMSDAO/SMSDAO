@@ -1,0 +1,11 @@
+{
+  "name": "smsdao",
+  "version": "1.0.0",
+  "description": "SMSDAO - Solana arbitrage program",
+  "scripts": {
+    "test": "echo \"No JS tests\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
