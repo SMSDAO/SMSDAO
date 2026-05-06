@@ -411,12 +411,75 @@ curl -X POST http://localhost:9090/fix/optimize
 
 ### Programmatic Usage
 
-**Rust:**
+**Note**: The following code examples are **conceptual templates** for implementing Auto Fix in a client application. These modules (`smsdao::fix`) do not exist in the current on-chain program repository.
+
+**Rust (Pseudo-code Example):**
 ```rust
-use smsdao::fix::{AutoFixManager, FixConfig};
+// Pseudo-code: Conceptual example of Auto Fix implementation
+// This demonstrates the pattern, not actual library code
+
+use tokio;
+use std::future::Future;
+use std::pin::Pin;
+
+// Example configuration and types
+struct FixConfig {
+    max_retries: u32,
+    backoff_ms: u64,
+}
+
+impl FixConfig {
+    fn from_file(_path: &str) -> std::io::Result<Self> {
+        Ok(FixConfig {
+            max_retries: 3,
+            backoff_ms: 1000,
+        })
+    }
+}
+
+struct AutoFixManager {
+    config: FixConfig,
+}
+
+impl AutoFixManager {
+    fn new(config: FixConfig) -> Self {
+        AutoFixManager { config }
+    }
+    
+    async fn start_monitoring(&self) -> std::io::Result<()> {
+        println!("Starting auto-fix monitoring");
+        Ok(())
+    }
+    
+    async fn execute_with_retry<F, Fut, T>(&self, f: F) -> std::io::Result<T>
+    where
+        F: Fn() -> Fut,
+        Fut: Future<Output = std::io::Result<T>>,
+    {
+        for attempt in 0..self.config.max_retries {
+            match f().await {
+                Ok(result) => return Ok(result),
+                Err(e) if attempt < self.config.max_retries - 1 => {
+                    println!("Attempt {} failed, retrying...", attempt + 1);
+                    tokio::time::sleep(tokio::time::Duration::from_millis(self.config.backoff_ms)).await;
+                    continue;
+                }
+                Err(e) => return Err(e),
+            }
+        }
+        unreachable!()
+    }
+}
+
+// Example operation
+async fn execute_arbitrage(amount: u64) -> std::io::Result<String> {
+    // Placeholder for actual arbitrage execution
+    Ok(format!("Executed with amount: {}", amount))
+}
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> std::io::Result<()> {
+    let amount = 1000000;
     let config = FixConfig::from_file("config/auto_fix.toml")?;
     let fix_manager = AutoFixManager::new(config);
     
@@ -426,7 +489,6 @@ async fn main() -> Result<()> {
     // Execute operation with auto-retry
     let result = fix_manager
         .execute_with_retry(|| async {
-            // Your operation here
             execute_arbitrage(amount).await
         })
         .await?;

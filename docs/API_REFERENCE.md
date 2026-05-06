@@ -235,13 +235,17 @@ try {
 }
 ```
 
-## 🌐 RPC Endpoints
+## 🌐 RPC Endpoints (Client Application Example)
+
+**Note**: The following HTTP endpoints are examples for an off-chain monitoring/management service that you would build separately. The current repository contains only the on-chain Solana program, which is accessed via Solana RPC methods (see examples above).
+
+If you build a companion web service for monitoring your bot, you might implement:
 
 ### Health Check
 
 **Endpoint**: `GET /health`
 
-**Response:**
+**Example Response:**
 ```json
 {
   "status": "healthy",
@@ -255,7 +259,7 @@ try {
 
 **Endpoint**: `GET /metrics`
 
-**Response:**
+**Example Response:**
 ```json
 {
   "transactions": {

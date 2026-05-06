@@ -80,7 +80,7 @@ fuzzing_duration_minutes = 30
 cargo test
 
 # Run specific test suite
-cargo test --test integration_tests
+cargo test --test some-integration-tests
 
 # Run with auto-test features
 cargo run --release -- --auto-test

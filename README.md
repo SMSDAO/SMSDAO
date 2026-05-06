@@ -81,8 +81,9 @@ cargo build --release
 # Run tests
 cargo test
 
-# Start the arbitrage bot
-cargo run --release
+# Note: This crate is a Solana program library (no binary target)
+# Use Anchor CLI for deployment and testing
+anchor test
 ```
 
 For detailed installation instructions, see the [Getting Started Guide](docs/GETTING_STARTED.md).
@@ -116,18 +117,20 @@ Comprehensive documentation is available in the [`docs/`](docs/) directory:
 
 ### Basic Usage
 
+This repository contains the on-chain Solana program. For off-chain bot operations, you'll need to create a separate client application.
+
 ```bash
-# Run with default configuration
-cargo run --release
+# Build the Solana program
+anchor build
 
-# Run with custom configuration
-cargo run --release -- --config config/production.toml
+# Deploy to devnet
+anchor deploy --provider.cluster devnet
 
-# Enable automation features
-cargo run --release -- \
-  --enable-auto-sync \
-  --enable-auto-analysis \
-  --enable-auto-fix
+# Run integration tests
+anchor test
+
+# Example client usage (requires separate client crate):
+# cargo run --release -- --config config/production.toml
 ```
 
 ### Configuration
@@ -150,7 +153,7 @@ See [Configuration Guide](docs/CONFIGURATION.md) for all options.
 cargo test
 
 # Run specific test suite
-cargo test --test integration_tests
+cargo test --test some-integration-tests
 
 # Run with coverage
 cargo tarpaulin --out Html

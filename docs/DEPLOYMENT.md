@@ -537,24 +537,37 @@ tail -f /var/log/smsdao/smsdao.log
 
 ### Smoke Tests
 
+Run post-deployment verification (examples for your own implementation):
+
 ```bash
-# Run post-deployment tests
-./scripts/smoke-tests.sh production
+# Manual smoke tests - verify health endpoints return 200
+curl https://your-deployment-url/health
 
-# Verify all integrations
-./scripts/verify-integrations.sh
+# Execute a small test trade and confirm it settles correctly
+# (Implement this in your client application)
 
-# Test failover
-./scripts/test-failover.sh
+# Check program accounts on-chain
+solana account <PROGRAM_ID> --url mainnet-beta
+
+# Verify program deployment
+anchor idl fetch <PROGRAM_ID> --provider.cluster mainnet-beta
+
+# Optional: If you have automation scripts, invoke them here
+# ./scripts/smoke-tests.sh production
+# ./scripts/verify-integrations.sh
+# ./scripts/test-failover.sh
 ```
 
 ## 🔄 Continuous Deployment
 
 ### CI/CD Pipeline
 
-**GitHub Actions** (`.github/workflows/deploy.yml`):
+**Example GitHub Actions workflow** for deploying the Solana program.
+
+Create `.github/workflows/deploy-program.yml`:
+
 ```yaml
-name: Deploy to Production
+name: Deploy Solana Program
 
 on:
   push:
@@ -566,30 +579,38 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       
-      - name: Build
-        run: cargo build --release
+      - name: Install Solana
+        run: |
+          sh -c "$(curl -sSfL https://release.solana.com/v1.16.0/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+      
+      - name: Install Anchor
+        run: |
+          cargo install --git https://github.com/coral-xyz/anchor anchor-cli --locked
+      
+      - name: Build program
+        run: anchor build
       
       - name: Run tests
-        run: cargo test --release
+        run: anchor test
       
-      - name: Build Docker image
-        run: docker build -t smsdao:${{ github.ref_name }} .
-      
-      - name: Push to registry
+      - name: Deploy to mainnet-beta
+        env:
+          DEPLOYER_KEYPAIR: ${{ secrets.DEPLOYER_KEYPAIR }}
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push smsdao:${{ github.ref_name }}
-      
-      - name: Deploy to production
-        run: |
-          ssh ${{ secrets.PROD_SERVER }} "cd /opt/smsdao && docker-compose pull && docker-compose up -d"
+          echo "$DEPLOYER_KEYPAIR" > deployer-keypair.json
+          anchor deploy --provider.cluster mainnet-beta --provider.wallet deployer-keypair.json
+          rm deployer-keypair.json
       
       - name: Verify deployment
         run: |
-          ./scripts/verify-deployment.sh
+          PROGRAM_ID=$(solana-keygen pubkey target/deploy/smsdao-keypair.json)
+          solana account $PROGRAM_ID --url mainnet-beta
 ```
+
+**Note**: The repository currently contains only `rust.yml` workflow. The above is a template you can adapt for program deployment.
 
 ## 🔙 Rollback Procedures
 

@@ -8,11 +8,13 @@ This guide covers all configuration options for SMSDAO, including environment va
 
 ## 📁 Configuration Files
 
-### Directory Structure
+**Note**: The `config/` directory structure below is a **proposed template** for organizing configuration files when building an off-chain client application. The current repository contains only the on-chain Solana program and does not include these files.
+
+### Recommended Directory Structure (for client applications)
 
 ```
-SMSDAO/
-├── config/
+your-bot-project/
+├── config/                      # Create this for your client app
 │   ├── default.toml          # Default configuration
 │   ├── development.toml      # Development overrides
 │   ├── production.toml       # Production settings
@@ -21,12 +23,12 @@ SMSDAO/
 │   ├── auto_analysis.toml    # Auto Analysis configuration
 │   └── auto_fix.toml         # Auto Fix configuration
 ├── .env                      # Environment variables
-└── Anchor.toml               # Anchor framework config
+└── Anchor.toml               # Optional: Anchor framework config
 ```
 
 ## ⚙️ Core Configuration
 
-### `config/default.toml`
+### Example `config/default.toml` (Template)
 
 ```toml
 [general]
@@ -460,18 +462,25 @@ Configuration is loaded in this order (later overrides earlier):
 
 ## ✅ Configuration Validation
 
-Validate your configuration:
+Validate your configuration files (when building a client application):
 
 ```bash
-# Validate configuration files
-cargo run --bin validate-config -- --config config/production.toml
+# Use a TOML linter to check syntax
+# Install: cargo install taplo-cli
+taplo lint config/production.toml
 
-# Test configuration
-cargo run --release -- --config config/production.toml --dry-run
+# Or use a generic TOML checker
+# Install: pip install toml-cli
+toml-cli lint config/production.toml
 
-# Show effective configuration
-cargo run --release -- --show-config
+# Manual validation in your client code:
+# Implement a validate_config() function that checks:
+# - Required fields are present
+# - Values are within acceptable ranges
+# - Network endpoints are reachable
 ```
+
+**Note**: The commands `cargo run --bin validate-config` and `--show-config` refer to utilities you would implement in your own client application. The current repository contains only the on-chain program.
 
 ## 📚 Configuration Best Practices
 

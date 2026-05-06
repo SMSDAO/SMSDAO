@@ -44,14 +44,24 @@ pub mod arbitrage_bot {
         let dex1_price = get_dex1_price(&ctx.accounts.dex1_program)?; // e.g., SOL/USDC on Raydium
         let dex2_price = get_dex2_price(&ctx.accounts.dex2_program)?; // e.g., SOL/USDC on Orca
 
-        // Calculate arbitrage opportunity
+        // Calculate arbitrage opportunity with checked arithmetic
         let (buy_dex, sell_dex, profit) = if dex1_price < dex2_price {
             // Buy on DEX1, sell on DEX2
-            let profit = (dex2_price - dex1_price) * amount - get_fees(amount);
+            let price_diff = dex2_price.checked_sub(dex1_price)
+                .ok_or(ArbitrageError::ArithmeticOverflow)?;
+            let gross_profit = price_diff.checked_mul(amount)
+                .ok_or(ArbitrageError::ArithmeticOverflow)?;
+            let profit = gross_profit.checked_sub(get_fees(amount))
+                .ok_or(ArbitrageError::ArithmeticOverflow)?;
             (&ctx.accounts.dex1_program, &ctx.accounts.dex2_program, profit)
         } else {
             // Buy on DEX2, sell on DEX1
-            let profit = (dex1_price - dex2_price) * amount - get_fees(amount);
+            let price_diff = dex1_price.checked_sub(dex2_price)
+                .ok_or(ArbitrageError::ArithmeticOverflow)?;
+            let gross_profit = price_diff.checked_mul(amount)
+                .ok_or(ArbitrageError::ArithmeticOverflow)?;
+            let profit = gross_profit.checked_sub(get_fees(amount))
+                .ok_or(ArbitrageError::ArithmeticOverflow)?;
             (&ctx.accounts.dex2_program, &ctx.accounts.dex1_program, profit)
         };
 
@@ -84,7 +94,7 @@ pub mod arbitrage_bot {
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
-    #[account(init, payer = owner, space = 8 + 32 + 32 + 32 + 32 + 8)]
+    #[account(init, payer = owner, space = 8 + 32 * 5 + 8)]
     pub state: Account<'info, ArbitrageState>,
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -95,13 +105,22 @@ pub struct Initialize<'info> {
 
 #[derive(Accounts)]
 pub struct ExecuteArbitrage<'info> {
-    #[account(mut)]
+    #[account(
+        mut,
+        has_one = owner,
+        has_one = token_a_vault,
+        has_one = token_b_vault,
+        has_one = dex1_program,
+        has_one = dex2_program
+    )]
     pub state: Account<'info, ArbitrageState>,
     #[account(mut)]
     pub token_a_vault: Account<'info, TokenAccount>,
     #[account(mut)]
     pub token_b_vault: Account<'info, TokenAccount>,
+    /// CHECK: Validated by has_one constraint on state
     pub dex1_program: AccountInfo<'info>,
+    /// CHECK: Validated by has_one constraint on state
     pub dex2_program: AccountInfo<'info>,
     pub owner: Signer<'info>,
 }
@@ -110,6 +129,8 @@ pub struct ExecuteArbitrage<'info> {
 pub enum ArbitrageError {
     #[msg("Arbitrage is not profitable")]
     NotProfitable,
+    #[msg("Arithmetic overflow or underflow")]
+    ArithmeticOverflow,
 }
 
 // Mock functions (replace with real DEX/oracle integrations)

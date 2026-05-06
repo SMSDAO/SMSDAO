@@ -105,8 +105,13 @@ Error: Failed to parse configuration
 
 1. **Validate TOML syntax:**
 ```bash
-# Check for syntax errors
-cargo run --bin validate-config -- --config config/production.toml
+# Check for syntax errors using a TOML linter
+# Install taplo: cargo install taplo-cli
+taplo lint config/production.toml
+
+# Or use Python toml-cli
+# Install: pip install toml-cli
+toml-cli lint config/production.toml
 ```
 
 2. **Common mistakes:**

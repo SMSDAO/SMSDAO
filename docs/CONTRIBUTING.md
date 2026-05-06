@@ -341,7 +341,7 @@ cargo test test_profit_calculation
 cargo test -- --nocapture
 
 # Run integration tests
-cargo test --test integration_tests
+cargo test --test some-integration-tests
 
 # Run with coverage
 cargo tarpaulin --out Html

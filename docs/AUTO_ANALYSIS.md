@@ -416,12 +416,64 @@ cargo run --release -- \
 
 ### Programmatic Usage
 
-**Rust:**
+**Note**: The following code examples are **conceptual templates** for implementing Auto Analysis in a client application. These modules (`smsdao::analysis`) do not exist in the current on-chain program repository.
+
+**Rust (Pseudo-code Example):**
 ```rust
-use smsdao::analysis::{AutoAnalysisManager, AnalysisConfig};
+// Pseudo-code: Conceptual example of Auto Analysis implementation
+// This demonstrates the pattern, not actual library code
+
+use tokio;
+use std::time::Duration;
+
+// Example configuration and types
+struct AnalysisConfig {
+    ml_model_path: String,
+    update_interval_ms: u64,
+}
+
+impl AnalysisConfig {
+    fn from_file(_path: &str) -> std::io::Result<Self> {
+        Ok(AnalysisConfig {
+            ml_model_path: "models/arbitrage.onnx".to_string(),
+            update_interval_ms: 5000,
+        })
+    }
+}
+
+#[derive(Debug)]
+struct Opportunity {
+    pair: String,
+    profit_estimate: f64,
+}
+
+struct AutoAnalysisManager {
+    config: AnalysisConfig,
+}
+
+impl AutoAnalysisManager {
+    fn new(config: AnalysisConfig) -> Self {
+        AutoAnalysisManager { config }
+    }
+    
+    async fn start_all(&self) -> std::io::Result<()> {
+        println!("Starting analysis tasks");
+        Ok(())
+    }
+    
+    async fn get_top_opportunities(&self) -> std::io::Result<Vec<Opportunity>> {
+        // In real implementation, query ML model or analysis engine
+        Ok(vec![
+            Opportunity {
+                pair: "SOL/USDC".to_string(),
+                profit_estimate: 0.02,
+            }
+        ])
+    }
+}
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> std::io::Result<()> {
     let config = AnalysisConfig::from_file("config/auto_analysis.toml")?;
     let analyzer = AutoAnalysisManager::new(config);
     

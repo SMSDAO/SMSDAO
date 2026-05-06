@@ -111,19 +111,23 @@ anchor keys list
 ### Update Program ID
 
 After building, update the program ID in:
-- `Anchor.toml`
-- `src/main.rs` (line 5: `declare_id!`)
-- `.env` file
+- `src/lib.rs` (line 5: `declare_id!`)
+- `.env` file (if using environment-based configuration)
 
-### Compile Rust Binaries
+### Build the Solana Program
+
+This repository contains only the on-chain Solana program (no standalone binary targets).
 
 ```bash
-# Build all binaries
-cargo build --release
+# Build the Solana program with Anchor
+anchor build
 
-# Build specific binary
-cargo build --bin another_executable --release
+# Or use cargo directly
+cargo build-bpf
 ```
+
+**Note**: This crate does not define a standalone Rust binary (no `src/main.rs` or `src/bin/*`),
+so commands like `cargo run --release` or `./target/release/smsdao` are not available.
 
 ## 🧪 Testing
 
@@ -143,11 +147,11 @@ cargo test -- --nocapture
 ### Run Integration Tests
 
 ```bash
-# Start local validator
-solana-test-validator
-
-# In another terminal, run integration tests
+# Start local validator and run Anchor tests
 anchor test
+
+# Or manually with cargo
+cargo test --test some-integration-tests
 ```
 
 ### Run Benchmarks
@@ -156,27 +160,47 @@ anchor test
 cargo bench
 ```
 
-## 🚀 Running the Arbitrage Bot
+## 🚀 Using the Program
 
-### Local Development
-
-```bash
-# Start the arbitrage bot
-cargo run --release
-
-# Or use the binary directly
-./target/release/smsdao
-```
-
-### With Custom Configuration
+### Deploy to Devnet
 
 ```bash
-cargo run --release -- \
-  --network devnet \
-  --min-profit 100000000 \
-  --dex1 RaydiumProgramID \
-  --dex2 OrcaProgramID
+# Deploy the program
+anchor deploy --provider.cluster devnet
+
+# Get the program ID
+solana address -k target/deploy/smsdao-keypair.json
 ```
+
+### Create an Off-Chain Bot (Separate Project)
+
+To exercise the program, you'll need to create a separate off-chain client application:
+
+1. Create a new Rust crate for your bot:
+   ```bash
+   cargo new smsdao-bot
+   cd smsdao-bot
+   ```
+
+2. Add dependencies for Solana client interaction:
+   ```toml
+   [dependencies]
+   anchor-client = "0.28"
+   solana-sdk = "1.16"
+   ```
+
+3. Implement bot logic that calls the program's instructions.
+
+4. Run your bot:
+   ```bash
+   cargo run --release -- \
+     --network devnet \
+     --min-profit 100000000 \
+     --dex1 RaydiumProgramID \
+     --dex2 OrcaProgramID
+   ```
+
+Refer to the [API Reference](API_REFERENCE.md) for instruction details.
 
 ## 📊 Monitoring
 
@@ -202,18 +226,27 @@ curl http://localhost:9090/metrics
 
 ## 🔍 Verifying Installation
 
-Run the verification script:
+Manually verify your installation:
 
 ```bash
-# Check all prerequisites
-./scripts/verify-installation.sh
+# Check Rust version
+rustc --version  # Should be 1.70.0 or higher
+
+# Check Solana CLI
+solana --version  # Should be 1.16.0 or higher
+
+# Check Anchor
+anchor --version  # Should be 0.28.0 or higher
+
+# Check Node.js (optional, for client SDK)
+node --version  # Should be 18.0.0 or higher
 ```
 
 Expected output:
 ```
-✓ Rust installed (version 1.70.0)
-✓ Solana CLI installed (version 1.16.0)
-✓ Anchor installed (version 0.28.0)
+rustc 1.70.0 (or higher)
+solana-cli 1.16.0 (or higher)
+anchor-cli 0.28.0 (or higher)
 ✓ Node.js installed (version 18.0.0)
 ✓ Dependencies installed
 ✓ Configuration valid

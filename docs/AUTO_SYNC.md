@@ -215,12 +215,60 @@ interval_ms = 10000
 
 ### Programmatic Usage
 
-**Rust:**
+**Note**: The following code examples are **conceptual templates** for implementing Auto Sync in a client application. These modules (`smsdao::sync`) do not exist in the current on-chain program repository.
+
+**Rust (Pseudo-code Example):**
 ```rust
-use smsdao::sync::{AutoSyncManager, SyncConfig};
+// Pseudo-code: Conceptual example of Auto Sync implementation
+// This demonstrates the pattern, not actual library code
+
+use tokio;
+use std::time::Duration;
+
+// Example configuration structure
+struct SyncConfig {
+    chains: Vec<String>,
+    interval_ms: u64,
+}
+
+impl SyncConfig {
+    fn from_file(_path: &str) -> std::io::Result<Self> {
+        // In a real implementation, parse TOML configuration
+        Ok(SyncConfig {
+            chains: vec!["solana".to_string(), "base".to_string()],
+            interval_ms: 10000,
+        })
+    }
+}
+
+// Example sync manager
+struct AutoSyncManager {
+    config: SyncConfig,
+}
+
+impl AutoSyncManager {
+    fn new(config: SyncConfig) -> Self {
+        AutoSyncManager { config }
+    }
+    
+    async fn start_all(&self) -> std::io::Result<()> {
+        println!("Starting sync tasks for {} chains", self.config.chains.len());
+        // Implement actual sync logic here
+        Ok(())
+    }
+    
+    async fn get_status(&self) -> SyncStatus {
+        // Return sync status
+        SyncStatus { synced: true }
+    }
+}
+
+struct SyncStatus {
+    synced: bool,
+}
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> std::io::Result<()> {
     let config = SyncConfig::from_file("config/auto_sync.toml")?;
     let sync_manager = AutoSyncManager::new(config);
     
