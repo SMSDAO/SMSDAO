@@ -9,6 +9,9 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
 
@@ -25,7 +28,7 @@ jobs:
         run: |
           cargo install --git https://github.com avm --locked --force
           avm install 0.28.0
-          avm use 0.28.0
+          avm use 0.29.0
 
       - name: Build
       run: cargo build --verbose
