@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{Token, TokenAccount};
+use anchor_spl::token::TokenAccount;
 
 // Define the program ID
 declare_id!("779kqQC5yYMBR5KVjbExg3sSnQUU1Z1p8fPYApirXML3");
