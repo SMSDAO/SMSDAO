@@ -1,0 +1,19 @@
+[toolchain]
+  build_sbf = true
+
+[features]
+seeds = false
+skip-lint = false
+
+[programs.localnet]
+smsdao = "779kqQC5yYMBR5KVjbExg3sSnQUU1Z1p8fPYApirXML3"
+
+[registry]
+url = "https://apr.dev"
+
+[provider]
+cluster = "Localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "cargo test"

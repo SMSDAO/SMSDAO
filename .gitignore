@@ -4,7 +4,8 @@
 *.pdb
 
 # Cargo.lock for libraries
-Cargo.lock
+# (Uncomment the next line if this is a library crate; binaries/programs should commit Cargo.lock)
+# Cargo.lock
 
 # IDE files
 .vscode/
@@ -22,3 +23,8 @@ test-ledger/
 
 # Anchor
 .anchor/
+
+# Solana keypairs - never commit private keys
+id.json
+keypair.json
+*.keypair.json
