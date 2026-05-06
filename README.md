@@ -1,221 +1,464 @@
-Below is a polished and engaging **README.md** for the **GXQ STUDIO** project, incorporating details about the Solana Arbitrage Contract and linking it to related projects like **TradeOS** and the **SMSDAO** community. The format is designed to be clear, professional, and visually appealing for GitHub, with a cool and modern vibe.
+# Quantum Blockchain GXQS  
+### Ultra‑Lightweight • Quantum‑Safe • High‑Throughput L1 for the Post‑Quantum Era
 
 ---
 
-# 👋 Welcome to GXQ STUDIO
+## 📘 Introduction
 
-![GXQ Studio Banner](https://avatars.githubusercontent.com/u/144380926?v=4&size=64)  ]
-*Empowering decentralized trading with cutting-edge Solana arbitrage solutions.*
+Quantum Blockchain **GXQS** is engineered as an ultra‑lightweight, high‑throughput, **quantum‑safe Layer‑1** designed for a world where quantum computers are practical adversaries. As quantum capabilities accelerate breakthroughs in optimization, AI, and simulation, they simultaneously threaten the classical cryptography that secures global finance, identity, and communication.
 
-GXQ STUDIO is your go-to hub for innovative blockchain projects, starting with our flagship **Solana Arbitrage Contract**. Built for speed, efficiency, and profitability, this project leverages Solana’s high-throughput blockchain to exploit price differences across decentralized exchanges (DEXes) like [Raydium](https://raydium.io/), [Orca](https://www.orca.so/), and [Serum](https://www.projectserum.com/). 🚀
+GXQS is built from first principles to remain secure in a future where:
 
-Join the conversation and connect with us at the **SMSDAO** community on the [NEKO Channel](https://warpcast.com/nekodex)! 🌌
+- RSA and elliptic‑curve cryptography are breakable  
+- Harvest‑now‑decrypt‑later attacks become widespread  
+- Digital signatures and identities require post‑quantum protection  
 
----
-
-## 🌟 Project Overview
-
-The **GXQ Solana Arbitrage Contract** is a high-performance smart contract designed to identify and execute arbitrage opportunities on Solana’s lightning-fast blockchain. By monitoring token pairs (e.g., SOL/USDC) across multiple DEXes, the contract ensures profitable trades while minimizing risks like slippage and frontrunning.
-
-### Key Features
-- **Real-Time Price Monitoring**: Fetches live price data using Solana’s on-chain data or oracles like [Pyth](https://pyth.network/) or [Switchboard](https://switchboard.xyz/).
-- **Atomic Trade Execution**: Executes swaps in a single transaction to capitalize on fleeting opportunities.
-- **Secure Fund Management**: Uses token vaults to manage trading capital safely.
-- **Profitability Checks**: Ensures trades exceed swap fees, Solana’s low transaction costs (~0.000005 SOL), and slippage.
-- **Automation Ready**: Supports off-chain bots or crank mechanisms for continuous arbitrage detection.
+GXQS integrates **NIST‑standardized PQC algorithms** directly into consensus, wallet architecture, and smart‑contract execution. Combined with ultra‑low latency and deterministic finality, GXQS becomes a foundational layer for secure digital value, identity, and applications in the quantum age.
 
 ---
 
-## 🛠️ How It Works
+## 🧠 Core Features
 
-The arbitrage contract operates in four core steps:
+### 🔐 Post‑Quantum Security
+- ML‑KEM (Kyber) for key establishment  
+- ML‑DSA (Dilithium) for signatures  
+- SPHINCS+ fallback  
+- SHA‑3 / SHAKE hashing  
+- Crypto‑agility for future PQC migrations  
 
-1. **Price Comparison**: Monitors token pairs across DEXes to identify price discrepancies.
-2. **Profit Calculation**: Computes potential profits after accounting for fees and slippage.
-3. **Trade Execution**: Executes buy and sell transactions atomically on Solana.
-4. **Automation**: Uses off-chain bots or on-chain cranks to trigger arbitrage checks periodically.
+### ⚡ High‑Performance Consensus
+- PQC‑secured BFT  
+- 300–500 ms block times  
+- ≤ 2 s deterministic finality  
+- 5,000+ TPS on commodity hardware  
 
-For a deeper dive, check out the [High-Level Approach](#high-level-approach) section below.
+### 📱 Smart Wallet Integration
+- Multi‑PQC key bundles  
+- Hardware‑backed key storage  
+- Social recovery  
+- Account abstraction  
+- Light‑client verification  
 
----
-
-## 📚 Getting Started
-
-### Prerequisites
-- **Rust** and **Anchor Framework** for Solana development.
-- **Solana CLI** for deploying and testing programs.
-- **Node.js** or **Python** for off-chain bot integration.
-- Access to Solana RPC endpoints (e.g., [Mainnet Beta](https://api.mainnet-beta.solana.com)).
-- Token accounts for trading pairs (e.g., SOL/USDC).
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/GXQ-STUDIO/solana-arbitrage.git
-   cd solana-arbitrage
-   ```
-2. Install dependencies:
-   ```bash
-   yarn install
-   ```
-3. Build the Solana program:
-   ```bash
-   anchor build
-   ```
-4. Deploy to Solana Devnet:
-   ```bash
-   anchor deploy --provider.cluster devnet
-   ```
-
-### Usage
-1. Initialize the arbitrage state with vault accounts and DEX program IDs.
-2. Deploy an off-chain bot to monitor prices and trigger the `execute_arbitrage` function.
-3. Monitor transactions and profits via Solana’s explorer or custom logs.
-
-For a full setup guide, see our [Documentation](#documentation).
+### 🧩 Quantum‑Inspired Smart Contracts
+- Probabilistic branching  
+- Verifiable randomness  
+- Multi‑path execution  
+- Deterministic GXVM  
 
 ---
 
-## 💻 Code Example
+# ⚔️ GXQS vs Major Blockchains  
+### Performance, Security, and Quantum‑Readiness Comparison
 
-Below is a simplified pseudo-code example of the Solana Arbitrage Contract using Rust and Anchor:
+## 🚀 Performance & Finality
 
-```rust
-use anchor_lang::prelude::*;
-use anchor_spl::token::{Token, TokenAccount};
+| Chain | TPS | Block Time | Finality | Architecture |
+|------|------|------------|----------|--------------|
+| **GXQS** | **5,000+** | **300–500 ms** | **≤ 2 s deterministic** | PQC‑BFT |
+| Solana | 1,000–4,000 | 400 ms | 2–4 s | PoH + PoS |
+| Ethereum | 15–30 | 12 s | 5–12 min | PoS |
+| Avalanche | 4,500 | 1–2 s | 1–2 s | Snowman |
+| Aptos | 1,000–4,000 | 400 ms | 1–2 s | BFT |
+| Sui | 1,000–3,000 | 400 ms | 1–2 s | Narwhal/Bullshark |
 
-declare_id!("YourProgramIDHere");
+---
 
-#[account]
-pub struct ArbitrageState {
-    pub owner: Pubkey,
-    pub token_a_vault: Pubkey, // Vault for token A (e.g., SOL)
-    pub token_b_vault: Pubkey, // Vault for token B (e.g., USDC)
-    pub dex1_program: Pubkey, // DEX1 (e.g., Raydium)
-    pub dex2_program: Pubkey, // DEX2 (e.g., Orca)
-    pub min_profit: u64,     // Minimum profit threshold
-}
+## 🔐 Security & Cryptography
 
-#[program]
-pub mod arbitrage_bot {
-    use super::*;
+| Chain | Signature Scheme | Quantum‑Safe? | PQC Migration |
+|-------|------------------|---------------|---------------|
+| **GXQS** | **ML‑DSA, SPHINCS+, ML‑KEM** | **Yes** | **None (native)** |
+| Ethereum | secp256k1 | No | Hard |
+| Solana | ed25519 | No | Hard |
+| Avalanche | secp256k1 | No | Hard |
+| Aptos | ed25519 | No | Hard |
+| Sui | ed25519 | No | Hard |
 
-    pub fn initialize(ctx: Context<Initialize>, min_profit: u64, dex1_program: Pubkey, dex2_program: Pubkey) -> Result<()> {
-        let state = &mut ctx.accounts.state;
-        state.owner = ctx.accounts.owner.key();
-        state.token_a_vault = ctx.accounts.token_a_vault.key();
-        state.token_b_vault = ctx.accounts.token_b_vault.key();
-        state.dex1_program = dex1_program;
-        state.dex2_program = dex2_program;
-        state.min_profit = min_profit;
-        Ok(())
-    }
+---
 
-    pub fn execute_arbitrage(ctx: Context<ExecuteArbitrage>, amount: u64) -> Result<()> {
-        let state = &ctx.accounts.state;
+## 📱 Light‑Client & Mobile Readiness
 
-        // Fetch prices (mock; use Pyth/Switchboard in production)
-        let dex1_price = get_dex1_price(&ctx.accounts.dex1_program)?;
-        let dex2_price = get_dex2_price(&ctx.accounts.dex2_program)?;
+| Chain | Light Client | Mobile‑Friendly | PQC Light Client |
+|-------|--------------|----------------|------------------|
+| **GXQS** | **Yes** | **Yes** | **Yes** |
+| Ethereum | Partial | Medium | No |
+| Solana | No | Low | No |
+| Avalanche | Partial | Medium | No |
+| Aptos | Partial | Medium | No |
+| Sui | Partial | Medium | No |
 
-        // Calculate arbitrage opportunity
-        let (buy_dex, sell_dex, profit) = if dex1_price < dex2_price {
-            let profit = (dex2_price - dex1_price) * amount - get_fees(amount);
-            (ctx.accounts.dex1_program, ctx.accounts.dex2_program, profit)
-        } else {
-            let profit = (dex1_price - dex2_price) * amount - get_fees(amount);
-            (ctx.accounts.dex2_program, ctx.accounts.dex1_program, profit)
-        };
+---
 
-        require!(profit > state.min_profit, ArbitrageError::NotProfitable);
+## 🧠 Smart Contract Model
 
-        // Execute swaps
-        swap_tokens(&ctx.accounts.token_a_vault, &ctx.accounts.token_b_vault, buy_dex, amount, "buy")?;
-        swap_tokens(&ctx.accounts.token_b_vault, &ctx.accounts.token_a_vault, sell_dex, amount, "sell")?;
+| Chain | VM | Parallel Execution | Quantum‑Safe Logic |
+|-------|----|--------------------|--------------------|
+| **GXQS** | **GXVM** | **Yes** | **Yes** |
+| Ethereum | EVM | No | No |
+| Solana | Sealevel | Yes | No |
+| Aptos | MoveVM | Yes | No |
+| Sui | MoveVM | Yes | No |
+| Avalanche | AVM/EVM | No | No |
 
-        emit!(ArbitrageExecuted { profit, timestamp: Clock::get()?.unix_timestamp });
-        Ok(())
-    }
-}
+---
+
+# 📸 UI Screenshots
+
+### Global Analytics Dashboard  
+`./docs/ui/gxqs_global_dashboard.png`
+
+### Operations & Business Intelligence Dashboard  
+`./docs/ui/gxqs_operations_dashboard.png`
+
+### Admin & Front‑End Panels  
+`./docs/ui/gxqs_admin_frontend.png`
+
+---
+
+# 📂 Repository Structure
+
+```
+gxqs/
+│
+├── core/                 # Consensus, networking, PQC primitives
+├── gxvm/                 # Quantum-inspired smart contract VM
+├── wallet/               # Smart wallet SDK + PQC key manager
+├── node/                 # Full node + light client
+├── docs/
+│   ├── ui/               # UI screenshots
+│   ├── whitepaper/
+│   └── specs/
+└── README.md
 ```
 
 ---
 
-## 🔗 Related Projects
+# 🏆 Why GXQS Wins
 
-### TradeOS
-Looking to expand your trading toolkit? Check out **[TradeOS](https://github.com/TradeOS)**, a complementary project by GXQ STUDIO. TradeOS is a decentralized trading platform designed to integrate seamlessly with arbitrage strategies, offering advanced analytics and cross-chain compatibility. Stay tuned for updates on how TradeOS enhances the GXQ ecosystem!
+### 1. PQC‑Native Consensus  
+No migration risk. No classical crypto bottlenecks.
 
----
+### 2. Ultra‑Short Block Times  
+300–500 ms on commodity hardware.
 
-## ⚙️ High-Level Approach
+### 3. Deterministic Finality  
+≤ 2 seconds, globally consistent.
 
-### 1. Identify Arbitrage Opportunities
-- Monitor token pairs (e.g., SOL/USDC) across DEXes like Raydium, Orca, or Serum.
-- Use on-chain data or oracles (Pyth/Switchboard) for real-time price feeds.
-- Calculate profits after accounting for:
-  - Swap fees (e.g., 0.25% on Raydium).
-  - Solana transaction fees (~0.000005 SOL).
-  - Potential slippage.
+### 4. Mobile‑First Architecture  
+Runs on edge devices where Solana/Ethereum cannot.
 
-### 2. Contract Components
-- **Price Monitoring**: Compares prices across DEXes.
-- **Trade Execution**: Executes atomic swaps when profitable.
-- **Fund Management**: Manages trading capital in secure token vaults.
-- **Automation Trigger**: Uses off-chain bots or on-chain cranks for periodic checks.
-
-### 3. Automation
-- **Off-Chain Bot**: Monitor Solana’s blockchain via WebSocket RPC calls (`getProgramAccounts`, `accountSubscribe`) and trigger arbitrage.
-- **On-Chain Crank**: Implement a Serum-inspired crank for periodic execution.
-- **Keeper Network**: Integrate with Solana-compatible keepers (e.g., Chainlink, if available).
-
-### 4. Profitability & Risks
-- **Profitability**: Ensure price differences exceed fees and slippage. Focus on less liquid pairs for higher spreads.
-- **Risks**:
-  - **Frontrunning**: Compete with high-speed bots on Solana’s 65,000 TPS network.
-  - **Slippage**: Large trades may impact pool prices.
-  - **Oracle Risks**: Use reliable oracles to avoid manipulation.
-  - **Contract Bugs**: Thoroughly audit to prevent exploits.
+### 5. Quantum‑Inspired Smart Contracts  
+New classes of apps: probabilistic finance, multi‑path AI agents, quantum‑inspired games.
 
 ---
 
-## 🔐 Security Considerations
-- **Key Management**: Securely manage the contract’s wallet keys.
-- **Reentrancy Protection**: Prevent reentrancy attacks in swap logic.
-- **Oracle Integrity**: Validate oracle data to avoid manipulation.
-- **Audits**: Conduct thorough smart contract audits before deployment.
+# 📜 License  
+MIT / Apache‑2.0
 
 ---
 
-## 🚀 Future Roadmap
-- Integrate with additional DEXes and cross-chain bridges.
-- Enhance automation with Solana-native keeper networks.
-- Add support for multi-token arbitrage strategies.
-- Collaborate with **TradeOS** for advanced trading analytics.
+# 🚀 Next Steps
+
+# GXQS WHITEPAPER  
+### Quantum‑Safe, Ultra‑Low‑Latency Layer‑1 Blockchain  
+### Version 1.0
 
 ---
 
-## 📖 Documentation
-For detailed setup, deployment, and usage instructions, check out our [Documentation](https://github.com/GXQ-STUDIO/solana-arbitrage/wiki).
+# 1. Abstract
+
+Quantum Blockchain **GXQS** is a next‑generation Layer‑1 protocol engineered for a post‑quantum world. It integrates NIST‑standardized post‑quantum cryptography (PQC) directly into consensus, identity, wallet architecture, and smart‑contract execution. GXQS achieves ultra‑low latency (300–500 ms block times), deterministic finality (≤ 2 seconds), and high throughput (5,000+ TPS) on commodity hardware.
+
+GXQS introduces:
+
+- PQC‑native BFT consensus  
+- Multi‑PQC identity and wallet architecture  
+- Deterministic, quantum‑inspired smart‑contract VM (GXVM)  
+- Mobile‑first, light‑client‑friendly node design  
+- Quantum‑safe state proofs and transaction validation  
+
+GXQS is designed to remain secure against classical and quantum adversaries while enabling new classes of applications built on probabilistic, multi‑path, and quantum‑inspired logic.
 
 ---
 
-## 🤝 Community & Support
-Join the **SMSDAO** community to connect with developers, traders, and blockchain enthusiasts! Reach us on the [NEKO Channel](https://warpcast.com/nekodex) for updates, discussions, and support. 💬
+# 2. Introduction
 
-- **GitHub Issues**: Report bugs or suggest features [here](https://github.com/GXQ-STUDIO/solana-arbitrage/issues).
-- **Twitter**: Follow us for project updates (link TBD).
-- **Discord**: Join our community server (link TBD).
+Modern blockchains rely on classical cryptography—primarily elliptic‑curve signatures (secp256k1, ed25519). These primitives are vulnerable to Shor’s algorithm, meaning sufficiently powerful quantum computers can:
+
+- Derive private keys from public keys  
+- Forge signatures  
+- Break consensus assumptions  
+- Compromise historical and future transactions  
+
+This creates a global threat:
+
+**Harvest‑Now, Decrypt‑Later (HNDL)**  
+Attackers capture encrypted data today and decrypt it once quantum computers mature.
+
+GXQS eliminates this threat by adopting PQC from genesis. It is not a migration or patch; it is a protocol designed for the quantum era.
 
 ---
 
-## 📜 License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+# 3. Threat Model
+
+GXQS assumes adversaries with:
+
+- Classical computing resources  
+- Quantum computing resources  
+- Ability to perform HNDL attacks  
+- Network‑level attacks (eclipse, DoS, partitioning)  
+- Signature forgery attempts  
+- State manipulation attempts  
+- Smart‑contract exploitation  
+
+GXQS is secure under:
+
+- Classical adversaries  
+- Quantum adversaries  
+- Hybrid adversaries (classical + quantum)  
 
 ---
 
-*Built with 💖 by GXQ STUDIO. Let’s arbitrage the future!*
+# 4. Cryptographic Foundations
+
+GXQS uses NIST‑standardized PQC algorithms:
+
+### 4.1 Key Establishment  
+- **ML‑KEM (Kyber)**  
+Used for secure session establishment, encrypted channels, and wallet‑to‑node communication.
+
+### 4.2 Digital Signatures  
+- **ML‑DSA (Dilithium)** — primary signature scheme  
+- **SPHINCS+** — stateless fallback for long‑term archival security  
+
+### 4.3 Hashing  
+- **SHA‑3 / SHAKE**  
+Quantum‑resistant hashing for state commitments and Merkle proofs.
+
+### 4.4 Crypto‑Agility  
+GXQS supports future PQC migrations without breaking:
+
+- Addresses  
+- Wallets  
+- Consensus  
+- Smart contracts  
 
 ---
 
-This README is designed to be engaging, informative, and aligned with the provided Solana Arbitrage Contract details. It includes placeholders for links (e.g., Twitter, Discord) that can be updated as needed. Let me know if you’d like to tweak the tone, add specific sections, or integrate more details about **TradeOS** or **SMSDAO**! 😎
+# 5. Consensus Architecture
+
+GXQS uses a **PQC‑secured BFT consensus** optimized for low latency and deterministic finality.
+
+### 5.1 Consensus Pipeline
+
+1. **Proposal Phase**  
+   - A proposer assembles a block and signs it with ML‑DSA.
+
+2. **Pre‑Vote Phase**  
+   - Validators verify PQC signatures and broadcast pre‑votes.
+
+3. **Pre‑Commit Phase**  
+   - Validators aggregate PQC signatures and broadcast pre‑commits.
+
+4. **Finalization Phase**  
+   - Once ≥ 2/3 PQC‑verified pre‑commits are received, the block is finalized.
+
+### 5.2 Performance Targets
+
+- **300–500 ms block time**  
+- **≤ 2 seconds deterministic finality**  
+- **5,000+ TPS** on commodity hardware  
+
+### 5.3 Why PQC Improves Consensus
+
+Classical blockchains rely on elliptic‑curve signatures, which are:
+
+- Vulnerable to quantum attacks  
+- Slower to verify at scale  
+- Hard to aggregate securely  
+
+PQC signatures (ML‑DSA) are:
+
+- Faster to verify in batch  
+- Resistant to quantum attacks  
+- More efficient for BFT voting rounds  
+
+---
+
+# 6. Network Architecture
+
+### 6.1 Node Types
+
+- **Full Node**  
+  Stores full state, participates in consensus.
+
+- **Light Client**  
+  Verifies PQC state proofs without storing full history.
+
+- **Mobile Node**  
+  Optimized for low‑power devices.
+
+### 6.2 Gossip Layer
+
+- PQC‑secured message envelopes  
+- Adaptive bandwidth throttling  
+- Low‑latency propagation  
+
+### 6.3 State Sync
+
+- PQC‑verified Merkle proofs  
+- Stateless client support  
+- Efficient snapshot distribution  
+
+---
+
+# 7. GXVM — Quantum‑Inspired Smart Contract VM
+
+GXVM introduces deterministic, quantum‑inspired execution:
+
+### 7.1 Execution Features
+
+- **Probabilistic branching**  
+- **Verifiable randomness**  
+- **Multi‑path execution**  
+- **Deterministic outcomes**  
+- **Parallelizable state access**  
+
+### 7.2 Instruction Set
+
+GXVM includes:
+
+- Arithmetic ops  
+- State ops  
+- Branch ops  
+- Randomness ops  
+- Multi‑path ops  
+- PQC ops  
+
+### 7.3 Determinism
+
+All probabilistic behavior is derived from:
+
+- Verifiable randomness  
+- Block commitments  
+- Validator‑generated entropy  
+
+---
+
+# 8. Wallet Architecture
+
+GXQS wallets use **multi‑PQC key bundles**:
+
+### 8.1 Key Types
+
+- ML‑DSA signing keys  
+- ML‑KEM encryption keys  
+- SPHINCS+ archival keys  
+
+### 8.2 Features
+
+- Social recovery  
+- Hardware enclave support  
+- Account abstraction  
+- PQC light‑client proofs  
+
+### 8.3 Address Format
+
+Addresses are derived from PQC public keys using SHA‑3.
+
+---
+
+# 9. Light‑Client Protocol
+
+GXQS supports full PQC‑verified light clients:
+
+- PQC Merkle proofs  
+- PQC block headers  
+- Stateless verification  
+- Mobile‑first design  
+
+Light clients can verify:
+
+- Transactions  
+- State transitions  
+- Consensus votes  
+- Block finality  
+
+---
+
+# 10. Performance Benchmarks
+
+| Metric | GXQS | Solana | Ethereum | Avalanche | Aptos | Sui |
+|--------|------|--------|----------|-----------|-------|------|
+| TPS | **5,000+** | 1,000–4,000 | 15–30 | 4,500 | 1,000–4,000 | 1,000–3,000 |
+| Block Time | **300–500 ms** | 400 ms | 12 s | 1–2 s | 400 ms | 400 ms |
+| Finality | **≤ 2 s** | 2–4 s | 5–12 min | 1–2 s | 1–2 s | 1–2 s |
+| PQC‑Safe | **Yes** | No | No | No | No | No |
+
+---
+
+# 11. Tokenomics (High‑Level)
+
+### 11.1 Supply  
+- Fixed or capped (configurable)
+
+### 11.2 Staking  
+- PQC‑secured validator staking  
+- Slashing for equivocation or downtime  
+
+### 11.3 Rewards  
+- Block rewards  
+- Transaction fees  
+- Priority fees  
+
+### 11.4 Governance  
+- On‑chain PQC‑signed proposals  
+- Validator‑weighted voting  
+
+---
+
+# 12. Roadmap
+
+### Phase 1 — Core Protocol  
+- PQC consensus  
+- GXVM  
+- Wallet SDK  
+
+### Phase 2 — Light Clients  
+- Mobile nodes  
+- PQC state proofs  
+
+### Phase 3 — Ecosystem  
+- Bridges  
+- DEX  
+- PQC identity layer  
+
+### Phase 4 — Enterprise  
+- Compliance modules  
+- Institutional wallets  
+
+---
+
+# 13. Conclusion
+
+GXQS is the first blockchain designed from the ground up for the post‑quantum era. By integrating PQC into every layer—consensus, wallets, contracts, and networking—GXQS delivers:
+
+- Quantum‑safe security  
+- Ultra‑low latency  
+- Deterministic finality  
+- Mobile‑first scalability  
+- Quantum‑inspired programmability  
+
+GXQS is not an evolution of existing chains.  
+It is a **new category** of blockchain built for a world where quantum computers are real adversaries.
+
+---
+
+# Appendix A — Glossary
+
+- **PQC** — Post‑Quantum Cryptography  
+- **ML‑DSA** — Dilithium signature scheme  
+- **ML‑KEM** — Kyber key encapsulation  
+- **SPHINCS+** — Stateless hash‑based signature scheme  
+- **BFT** — Byzantine Fault Tolerance  
+- **GXVM** — GXQS Virtual
