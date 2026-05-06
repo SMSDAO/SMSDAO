@@ -1,5 +1,5 @@
 // Integration tests for SMSDAO
-use smsdao::*;
+use ::smsdao::*;
 
 #[test]
 fn test_integration_basic() {

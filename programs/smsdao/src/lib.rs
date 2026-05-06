@@ -16,7 +16,7 @@ pub struct ArbitrageState {
 }
 
 #[program]
-pub mod arbitrage_bot {
+pub mod smsdao {
     use super::*;
 
     // Initialize the arbitrage state
@@ -47,20 +47,12 @@ pub mod arbitrage_bot {
         // Calculate arbitrage opportunity with checked arithmetic
         let (buy_dex, sell_dex, profit) = if dex1_price < dex2_price {
             // Buy on DEX1, sell on DEX2
-            let price_diff = dex2_price.checked_sub(dex1_price)
-                .ok_or(ArbitrageError::ArithmeticOverflow)?;
-            let gross_profit = price_diff.checked_mul(amount)
-                .ok_or(ArbitrageError::ArithmeticOverflow)?;
-            let profit = gross_profit.checked_sub(get_fees(amount))
+            let profit = calculate_profit(dex1_price, dex2_price, amount)
                 .ok_or(ArbitrageError::ArithmeticOverflow)?;
             (&ctx.accounts.dex1_program, &ctx.accounts.dex2_program, profit)
         } else {
             // Buy on DEX2, sell on DEX1
-            let price_diff = dex1_price.checked_sub(dex2_price)
-                .ok_or(ArbitrageError::ArithmeticOverflow)?;
-            let gross_profit = price_diff.checked_mul(amount)
-                .ok_or(ArbitrageError::ArithmeticOverflow)?;
-            let profit = gross_profit.checked_sub(get_fees(amount))
+            let profit = calculate_profit(dex2_price, dex1_price, amount)
                 .ok_or(ArbitrageError::ArithmeticOverflow)?;
             (&ctx.accounts.dex2_program, &ctx.accounts.dex1_program, profit)
         };
@@ -146,6 +138,23 @@ pub fn get_fees(amount: u64) -> u64 {
     amount / 100 // Mock 1% fee
 }
 
+/// Calculate arbitrage profit given two prices and a trade amount.
+/// Returns `None` if arithmetic overflows or the opportunity is not profitable.
+/// A positive return value means buy on the lower-price DEX and sell on the higher.
+pub fn calculate_profit(
+    price_a: u64,
+    price_b: u64,
+    amount: u64,
+) -> Option<u64> {
+    let price_diff = if price_a < price_b {
+        price_b.checked_sub(price_a)?
+    } else {
+        price_a.checked_sub(price_b)?
+    };
+    let gross_profit = price_diff.checked_mul(amount)?;
+    gross_profit.checked_sub(get_fees(amount))
+}
+
 fn swap_tokens<'info>(
     _from_vault: &Account<'info, TokenAccount>,
     _to_vault: &Account<'info, TokenAccount>,
@@ -186,5 +195,47 @@ mod tests {
         let amount = 1_000_000_000; // 1 SOL
         let fees = get_fees(amount);
         assert_eq!(fees, 10_000_000); // 0.01 SOL (1%)
+    }
+
+    // --- calculate_profit tests ---
+
+    #[test]
+    fn test_profit_dex1_cheaper() {
+        // price_a < price_b: buy on DEX1, sell on DEX2
+        // price_diff = 101 - 100 = 1, gross = 1 * 1_000 = 1_000, fees = 10, profit = 990
+        let profit = calculate_profit(100, 101, 1_000);
+        assert_eq!(profit, Some(990));
+    }
+
+    #[test]
+    fn test_profit_dex2_cheaper() {
+        // price_a > price_b: buy on DEX2, sell on DEX1
+        // price_diff = 105 - 100 = 5, gross = 5 * 1_000 = 5_000, fees = 10, profit = 4_990
+        let profit = calculate_profit(105, 100, 1_000);
+        assert_eq!(profit, Some(4_990));
+    }
+
+    #[test]
+    fn test_profit_equal_prices_returns_none() {
+        // price_diff = 0 → gross = 0, fees = 1_000/100 = 10 → 0 - 10 underflows → None
+        let profit = calculate_profit(100, 100, 1_000);
+        assert_eq!(profit, None);
+    }
+
+    #[test]
+    fn test_profit_fees_exceed_gross_returns_none() {
+        // price_diff = 1, amount = 50 → gross = 50, fees = 0, profit = 50 (ok)
+        // price_diff = 0, amount = 100 → gross = 0, fees = 1, underflow → None
+        // Actually fees = amount/100; for amount=100, fees=1, gross=0 → 0.checked_sub(1) = None
+        let profit = calculate_profit(100, 100, 100);
+        // gross = 0 * 100 = 0, fees = 1 → underflow → None
+        assert_eq!(profit, None);
+    }
+
+    #[test]
+    fn test_profit_overflow_returns_none() {
+        // price_diff * amount overflows u64
+        let profit = calculate_profit(0, u64::MAX, 2);
+        assert_eq!(profit, None);
     }
 }
